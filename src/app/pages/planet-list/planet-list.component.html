@@ -1,0 +1,15 @@
+<p>planet-list works!</p>
+
+<p *ngIf="!planets; else planetsList">
+  Loading...
+</p>
+
+<app-planet
+  *ngFor="let planet of planets"
+  [planet]="planet"
+  #planetsList
+></app-planet>
+
+<div *ngIf="error">
+  Oops error: {{error}}
+</div>
