@@ -1,15 +1,19 @@
-<p>planet-list works!</p>
+<div class="planet-list-wrapper">
+  <p *ngIf="!planets; else planetsList">
+    Loading...
+  </p>
 
-<p *ngIf="!planets; else planetsList">
-  Loading...
-</p>
+  <div class="planet-list-container">
+    <app-planet
+      *ngFor="let planet of planets"
+      [planet]="planet"
+      [routerLink]="['/planet/', parseUrl(planet.name, 'removeSpaces')]"
+      #planetsList
+      class="planet-wrapper"
+    ></app-planet>
+  </div>
 
-<app-planet
-  *ngFor="let planet of planets"
-  [planet]="planet"
-  #planetsList
-></app-planet>
-
-<div *ngIf="error">
-  Oops error: {{error}}
+  <div *ngIf="error">
+    Oops error: {{error}}
+  </div>
 </div>

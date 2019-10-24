@@ -1,0 +1,27 @@
+@import "../../../variables";
+.planet-list-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  align-items: start;
+  padding: 0 50px;
+}
+
+.planet-wrapper{
+  overflow: hidden;
+  border:{
+    width: 1px;
+    radius: 5px;
+    style: solid;
+    color: #ccc;
+  }
+  box-shadow: 0px -1px 6px 0 rgba(253, 253, 253, 0.3);
+  cursor: pointer;
+  outline: none;
+  &:hover{
+    box-shadow: 0px -1px 6px 0 rgba($sw-yellow, 1);
+    border: {
+      color: $sw-yellow;
+    };
+  }
+}

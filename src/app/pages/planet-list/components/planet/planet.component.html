@@ -1,8 +1,14 @@
-<div class="planets-list">
-  <div class="planet-container">
-  {{planet | json}}
-  </div>
+<div class="planet-container">
+  <article>
+    <img src="{{getPlanetImage(planet.url)}}"
+         class="planet-image"
+         alt="Planet Image">
+    <div class="description">
+      <h3>Name: {{planet.name}}</h3>
+      <p>Rotation period: {{planet.rotation_period}}</p>
+      <p>Gravity: {{planet.gravity}}</p>
+      <p>Climate: {{planet.climate}}</p>
+      <p>Population: {{planet.population}}</p>
+    </div>
+  </article>
 </div>
-
-<br>
-<hr>
