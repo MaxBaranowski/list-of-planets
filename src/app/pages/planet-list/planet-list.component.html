@@ -7,7 +7,7 @@
     <app-planet
       *ngFor="let planet of planets"
       [planet]="planet"
-      [routerLink]="['/planet/', parseUrl(planet.name, 'removeSpaces')]"
+      [routerLink]="['/planet/', parseUrl(planet.url, 'getId')]"
       #planetsList
       class="planet-wrapper"
     ></app-planet>

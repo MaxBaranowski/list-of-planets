@@ -17,7 +17,7 @@ const routes: Routes = [
     path: 'planets', component: PlanetListComponent
   },
   {
-    path: 'planet/:name', component: PlanetDetailComponent
+    path: 'planet/:id', component: PlanetDetailComponent
   },
   {
     path: '**', component: NotFoundComponent

@@ -29,12 +29,14 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
     this.planetListSubscription.unsubscribe();
   }
 
-  public parseUrl(name: any, action: string) {
+  public parseUrl(param: any, action: string) {
     switch (action) {
       case 'removeSpaces':
-        return name.replace(/ /g, '_');
+        return param.replace(/ /g, '_');
+      case 'getId':
+        return param.slice(0, -1).split('/').pop();
       default:
-        return name;
+        return param;
     }
   }
 }

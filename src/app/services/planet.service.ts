@@ -7,14 +7,15 @@ import { map } from 'rxjs/operators';
 export class PlanetService {
   constructor(private http: HttpClient) {}
 
-  getList(): Observable<PlanetListInterface> {
-    return this.http.get<PlanetListInterface>(`https://swapi.co/api/planets/?format=json`)
-               .pipe(map(res => {
-                   return res;
-                 })
-               );
+  getList(): Observable<object> {
+    return this.http.get(`https://swapi.co/api/planets/?format=json`)
+               .pipe(map(res => res));
   }
 
+  getPlanet(planetId): Observable<object> {
+    return this.http.get(`https://swapi.co/api/planets/${planetId}`)
+               .pipe(map(res => res));
+  }
 }
 
 interface PlanetListInterface {

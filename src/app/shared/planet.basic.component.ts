@@ -2,7 +2,7 @@ export abstract class PlanetBasicComponent {
   protected loading: boolean;
   protected message: string;
 
-  constructor(props) {}
+  protected constructor(...args: any) {}
 
   public showLoading(message: string = 'Loading...') {
     this.loading = true;
