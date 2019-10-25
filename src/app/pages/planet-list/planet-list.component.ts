@@ -19,6 +19,7 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
 
   ngOnInit() {
     this.planetListSubscription = this.planetService.getList().subscribe({
+        // @ts-ignore
         next: planets => this.planets = planets.results,
         error: err => this.error = err || 'No data'
       }
