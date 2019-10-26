@@ -12,7 +12,7 @@ export class PlanetService {
                .pipe(map(res => res));
   }
 
-  getPlanet(planetId): Observable<object> {
+  getPlanetByID(planetId): Observable<object> {
     return this.http.get(`https://swapi.co/api/planets/${planetId}`)
                .pipe(map(res => res));
   }

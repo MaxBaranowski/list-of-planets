@@ -22,7 +22,7 @@ export class PlanetDetailComponent extends PlanetBasicComponent implements OnIni
 
     this.route.params.subscribe(param => this.planetId = param.id);
 
-    this.planetService.getPlanet(this.planetId).subscribe({
+    this.planetService.getPlanetByID(this.planetId).subscribe({
         next: planet => this.planet = planet,
         error: err => this.error = err || 'No data'
       }
