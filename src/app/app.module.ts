@@ -14,6 +14,9 @@ import { PlanetService } from './services/planet.service';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from './shared/loading.component';
 
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './shared/reducers/planet.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,9 +32,10 @@ import { LoadingComponent } from './shared/loading.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    StoreModule.forRoot({planet: reducer})
   ],
   providers: [PlanetService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

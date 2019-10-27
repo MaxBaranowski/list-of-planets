@@ -26,6 +26,10 @@ export class PlanetService {
     return this.getPlanets(url);
   }
 
+  public getResidentInfo(url) {
+    return this.http.get(url);
+  }
+
 }
 
 interface PlanetsResponse {

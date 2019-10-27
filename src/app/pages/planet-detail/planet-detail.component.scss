@@ -24,6 +24,38 @@
   }
 
   .planet-detail-content {
+    width: 70%;
+    min-width: 350px;
+    max-width: 600px;
+    display: block;
+    margin: 15px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background: rgba(0, 0, 0, .7);
 
+    .description {
+      font-weight: 100;
+
+      h3 {
+        margin-bottom: 20px;
+      }
+
+      p {
+        border-bottom: 1px solid #2c2c2c;
+
+        span {
+          font-weight: bold;
+          font-size: 1.2rem;
+        }
+      }
+
+      ul{
+        li{
+          color: $sw-yellow;
+          list-style: inside;
+        }
+      }
+    }
   }
 }

@@ -14,6 +14,7 @@ export class PlanetDetailComponent extends PlanetBasicComponent implements OnIni
   planet;
   error;
   @Input() planetId: string;
+  residents: Array<string> = [];
 
   constructor(private planetService: PlanetService, private route: ActivatedRoute) {
     super(planetService, route);
@@ -29,6 +30,8 @@ export class PlanetDetailComponent extends PlanetBasicComponent implements OnIni
     this.planetService.getPlanetByID(this.planetId).subscribe({
         next: planet => {
           this.planet = planet;
+          // @ts-ignore
+          planet.residents.forEach(resident => this.getResident(resident));
           this.hideLoading();
         },
         error: err => this.error = err || 'No data'
@@ -36,4 +39,10 @@ export class PlanetDetailComponent extends PlanetBasicComponent implements OnIni
     );
   }
 
+  getResident(resident: string) {
+    this.planetService.getResidentInfo(resident).subscribe(data => {
+      // @ts-ignore
+      this.residents.push(data.name);
+    });
+  }
 }

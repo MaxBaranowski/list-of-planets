@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PlanetService } from '../../services/planet.service';
 import { PlanetBasicComponent } from '../../shared/planet.basic.component';
 import { isNullOrUndefined } from 'util';
+import { select, Store } from '@ngrx/store';
+import { getPlanets, savePlanets } from '../../shared/actions/planet.actions';
+import { Observable, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-planet-list',
@@ -17,34 +20,54 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
   availablePlanetsPerPage: Array<number> = [5, 10, 25, 100];
   planetsPerPage: number = this.availablePlanetsPerPage[0]; // chosen option how many planets will be shown per page
   pagination = {
-    current: 1 as number,
+    current: null as number,
     amount: null as number,
   };
   searchedPlanet = '';
+  planets$: Observable<{}>;
 
-  constructor(private planetService: PlanetService) {
+  constructor(private planetService: PlanetService, private store: Store<{ planets: any }>) {
     super(planetService);
+    this.planets$ = store.pipe(select('planet'));
   }
 
   ngOnInit() {
-    this.getPlanetsAll();
+    this.store.select('planet')
+        .subscribe((state) => {
+          this.listOfPlanets = state.planets ? state.planets : this.listOfPlanets;
+          this.planetsPerPage = state.planetsPerPage ? state.planetsPerPage : this.planetsPerPage;
+          this.pagination.current = state.page ? state.page : this.pagination.current;
+          this.pagination.amount = state.pageAmount ? state.pageAmount : this.pagination.amount;
+        });
+    if (this.listOfPlanets.length < 1) {
+      this.getPlanetsAll();
+    }
   }
 
   ngOnDestroy(): void {
-    this.planetListSubscription.unsubscribe();
+    if (this.planetListSubscription) {
+      this.planetListSubscription.unsubscribe();
+    }
   }
 
   searchPlanet() {
     this.listOfPlanets.length = 0;
     this.pagination.current = 1;
+    this.store.dispatch(savePlanets({
+      planets: [],
+      page: 1
+    }));
     this.getPlanetsAll();
   }
-
 
   clearSearchResults() {
     this.searchedPlanet = '';
     this.listOfPlanets.length = 0;
     this.pagination.current = 1;
+    this.store.dispatch(savePlanets({
+      planets: [],
+      page: 1
+    }));
     this.getPlanetsAll();
   }
 
@@ -67,6 +90,7 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
             this.loadAdditionalPlanets(planets.next);
           }
           this.hideLoading();
+          this.savePlanetsToStore.call(this);
         },
         error: err => this.error = `Smth went wrong, where is a problem with server:${err.message}`
       }
@@ -89,23 +113,40 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
             this.loadAdditionalPlanets(planets.next);
           }
           this.hideLoading();
+          this.savePlanetsToStore.call(this);
         }
       });
     }
 
   }
 
+  private savePlanetsToStore() {
+    this.store.dispatch(savePlanets({
+      planets: this.listOfPlanets,
+      page: this.pagination.current,
+      pageAmount: this.pagination.amount,
+      planetsPerPage: this.planetsPerPage
+    }));
+  }
+
   changePlanetsAmount(planetAmount: number | string) {
     this.planetsPerPage = Number(planetAmount);
     this.listOfPlanets.length = 0;
     this.pagination.current = 1;
+    this.store.dispatch(savePlanets({
+      planets: [],
+      page: 1,
+      planetsPerPage: Number(planetAmount)
+    }));
     this.getPlanetsAll();
-
     // console.log(this);
   }
 
   changePage(page) {
     this.listOfPlanets.length = 0;
+    this.store.dispatch(savePlanets({
+      planets: []
+    }));
     this.getPlanetsAll();
   }
 
