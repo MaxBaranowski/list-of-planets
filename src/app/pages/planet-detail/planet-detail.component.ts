@@ -21,10 +21,16 @@ export class PlanetDetailComponent extends PlanetBasicComponent implements OnIni
 
   ngOnInit() {
 
-    this.route.params.subscribe(param => this.planetId = param.id);
+    this.route.params.subscribe(param => {
+      this.showLoading();
+      this.planetId = param.id;
+    });
 
     this.planetService.getPlanetByID(this.planetId).subscribe({
-        next: planet => this.planet = planet,
+        next: planet => {
+          this.planet = planet;
+          this.hideLoading();
+        },
         error: err => this.error = err || 'No data'
       }
     );
