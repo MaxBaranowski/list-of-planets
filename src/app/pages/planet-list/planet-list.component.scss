@@ -1,0 +1,116 @@
+@import "../../../variables";
+
+.planet-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  align-items: start;
+  margin-bottom: 30px;
+}
+
+.planet-wrapper {
+  overflow: hidden;
+  border: {
+    width: 1px;
+    radius: 5px;
+    style: solid;
+    color: #ccc;
+  }
+  box-shadow: 0px -1px 6px 0 rgba(253, 253, 253, 0.3);
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    box-shadow: 0px -1px 6px 0 rgba($sw-yellow, 1);
+    border: {
+      color: $sw-yellow;
+    };
+  }
+}
+
+.planet-list-search-bar-container {
+  display: inline-block;
+  position: relative;
+
+  #searchPlanet {
+    display: inline-block;
+    width: 350px;
+    height: 40px;
+    margin-bottom: 20px;
+    background: none;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px 10px 10px;
+    color: #fff;
+
+    &:focus {
+      border: {
+        color: $sw-yellow;
+      }
+      box-shadow: 0px 0px 6px 0 rgba($sw-yellow, 1);
+    }
+
+  }
+
+  .clearSearchResults {
+    position: absolute;
+    right: 10px;
+    font-size: 18px;
+    top: 7px;
+    cursor: pointer;
+
+    &:hover {
+      color: $sw-yellow;
+    }
+  }
+}
+
+.planet-navigation-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .planets-per-page {
+    display: inline-block;
+    margin: 10px 0;
+
+    .planets-amount {
+      margin: 0 2px;
+      vertical-align: sub;
+      cursor: pointer;
+
+      &.active {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: $sw-yellow;
+      }
+
+      &:hover {
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .planet-navigation ::ng-deep {
+    .pagination {
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+
+      .page-item {
+        .page-link {
+          background-color: #000;
+          border: 1px solid #ccc;
+          color: #ccc;
+        }
+
+        &.active .page-link {
+          color: $sw-yellow;
+        }
+      }
+    }
+  }
+}

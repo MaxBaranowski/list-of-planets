@@ -1,0 +1,66 @@
+<div class="planet-list-wrapper">
+
+  <div class="planet-list-search-bar-container">
+    <!--<label for="searchPlanet">Search Planet You Want</label>-->
+    <input type="text"
+           id="searchPlanet"
+           placeholder="Search planet ..."
+           class="planet-list-search-bar"
+           [(ngModel)]="searchedPlanet"
+           (keydown.enter)="searchPlanet()"
+    >
+    <span
+      class="clearSearchResults"
+      (click)="clearSearchResults()"
+      *ngIf="searchedPlanet.length > 0"
+    >&#10006;</span>
+  </div>
+
+  <!--  <p *ngIf="!listOfPlanets || listOfPlanets.length < 1; else planetsList">-->
+  <!--    Loading...-->
+  <!--  </p>-->
+  <div *ngIf="loading; else planetsList">
+    <app-loading [message]="loadingMessage"></app-loading>
+  </div>
+
+  <ng-template #planetsList>
+
+    <div class="planet-list-container">
+      <app-planet
+        *ngFor="let planet of listOfPlanets"
+        [planet]="planet"
+        [routerLink]="['/planet/', parseUrl(planet.url, 'getId')]"
+        class="planet-wrapper"
+      ></app-planet>
+    </div>
+
+    <div class="planet-navigation-container">
+      <div class="planets-per-page">
+        <span
+          class="planets-amount"
+          [ngClass]="{active: planetsPerPage === planetAmount}"
+          *ngFor="let planetAmount of availablePlanetsPerPage"
+          (click)="changePlanetsAmount(planetAmount)"
+        >
+          {{planetAmount}}
+        </span>
+      </div>
+
+      <ngb-pagination
+        [collectionSize]="pagination.amount"
+        [pageSize]="planetsPerPage"
+        [(page)]="pagination.current"
+        [maxSize]="4"
+        class="planet-navigation"
+        (pageChange)="changePage($event)"
+      >
+        <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+      </ngb-pagination>
+    </div>
+  </ng-template>
+
+  <div *ngIf="error">
+    Oops error: {{error | json}}
+  </div>
+</div>

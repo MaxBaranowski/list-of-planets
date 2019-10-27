@@ -1,0 +1,41 @@
+<div class="planet-detail-wrapper">
+  <button class="back">
+    <span>&#x2B05;</span>
+    <a routerLink="/">Back To Planet List</a>
+  </button>
+
+  <!--  <p *ngIf="!planet; else planetDetail">-->
+  <!--    Loading...-->
+  <!--  </p>-->
+
+  <div *ngIf="loading; else planetDetail">
+    <app-loading [message]="loadingMessage"></app-loading>
+  </div>
+
+  <ng-template #planetDetail>
+    <div class="planet-detail-content">
+      <div class="description">
+        <h3>{{planet.name}}</h3>
+        <p *ngIf="planet.rotation_period"><span>Rotation period:</span> {{planet.rotation_period}}</p>
+        <p *ngIf="planet.orbital_period"><span>Orbital period:</span> {{planet.orbital_period}}</p>
+        <p *ngIf="planet.diameter"><span>Diameter:</span> {{planet.diameter}}</p>
+        <p *ngIf="planet.climate"><span>Climate:</span> {{planet.climate}}</p>
+        <p *ngIf="planet.gravity"><span>Gravity:</span> {{planet.gravity}}</p>
+        <p *ngIf="planet.terrain"><span>Terrain:</span> {{planet.terrain}}</p>
+        <p *ngIf="planet.population"><span>Population:</span> {{planet.population}}</p>
+        <p *ngIf="planet.surface_water"><span>Surface water:</span> {{planet.surface_water}}</p>
+        <p *ngIf="planet.residents" style="border-bottom: none;"><span>Residents:</span></p>
+        <ul *ngIf="planet.residents">
+          <p *ngIf="residents.length < planet.residents.length; else residentsList" style="border-bottom: none;">
+            Loading...
+          </p>
+          <ng-template #residentsList>
+            <li *ngFor="let resident of residents">
+              {{resident}}
+            </li>
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+  </ng-template>
+</div>
