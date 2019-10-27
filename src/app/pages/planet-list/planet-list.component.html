@@ -1,19 +1,45 @@
 <div class="planet-list-wrapper">
-  <p *ngIf="!planets; else planetsList">
+  <p *ngIf="!listOfPlanets || listOfPlanets.length < 1; else planetsList">
     Loading...
   </p>
 
-  <div class="planet-list-container">
-    <app-planet
-      *ngFor="let planet of planets"
-      [planet]="planet"
-      [routerLink]="['/planet/', parseUrl(planet.url, 'getId')]"
-      #planetsList
-      class="planet-wrapper"
-    ></app-planet>
-  </div>
+  <ng-template #planetsList>
+    <div class="planet-list-container">
+      <app-planet
+        *ngFor="let planet of listOfPlanets"
+        [planet]="planet"
+        [routerLink]="['/planet/', parseUrl(planet.url, 'getId')]"
+        class="planet-wrapper"
+      ></app-planet>
+    </div>
+
+    <div class="planet-navigation-container">
+      <div class="planets-per-page">
+        <span
+          class="planets-amount"
+          [ngClass]="{active: planetsPerPage === planetAmount}"
+          *ngFor="let planetAmount of availablePlanetsPerPage"
+          (click)="changePlanetsAmount(planetAmount)"
+        >
+          {{planetAmount}}
+        </span>
+      </div>
+
+      <ngb-pagination
+        [collectionSize]="pagination.amount"
+        [pageSize]="planetsPerPage"
+        [(page)]="pagination.current"
+        [maxSize]="4"
+        class="planet-navigation"
+        (pageChange)="changePage($event)"
+      >
+        <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+      </ngb-pagination>
+    </div>
+  </ng-template>
 
   <div *ngIf="error">
-    Oops error: {{error}}
+    Oops error: {{error | json}}
   </div>
 </div>

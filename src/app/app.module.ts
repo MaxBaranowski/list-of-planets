@@ -1,14 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { PlanetComponent } from './pages/planet-list/components/planet/planet.component';
 import { PlanetListComponent } from './pages/planet-list/planet-list.component';
 import { PlanetDetailComponent } from './pages/planet-detail/planet-detail.component';
-import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PlanetService } from './services/planet.service';
-import { PlanetComponent } from './pages/planet-list/components/planet/planet.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { PlanetComponent } from './pages/planet-list/components/planet/planet.co
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    NgbPaginationModule
   ],
   providers: [PlanetService],
   bootstrap: [AppComponent]

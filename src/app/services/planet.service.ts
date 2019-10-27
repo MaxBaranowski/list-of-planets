@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 export class PlanetService {
   constructor(private http: HttpClient) {}
 
-  getList(): Observable<object> {
-    return this.http.get(`https://swapi.co/api/planets/?format=json`)
+  getPlanetsAll(page = 1): Observable<PlanetsResponse> {
+    return this.http.get<PlanetsResponse>(`https://swapi.co/api/planets/?format=json&page=${page}`)
                .pipe(map(res => res));
   }
 
@@ -16,9 +16,14 @@ export class PlanetService {
     return this.http.get(`https://swapi.co/api/planets/${planetId}`)
                .pipe(map(res => res));
   }
+
+  getPlanetsByURL(url: string): Observable<PlanetsResponse> {
+    return this.http.get<PlanetsResponse>(`${url}`)
+               .pipe(map(res => res));
+  }
 }
 
-interface PlanetListInterface {
+interface PlanetsResponse {
   count: number;
   next: string;
   previous?: string;

@@ -1,6 +1,7 @@
 <div class="planet-container">
   <article>
     <img src="{{getPlanetImage(planet.url)}}"
+         (error)="imageErrorHandler($event)"
          class="planet-image"
          alt="Planet Image">
     <div class="description">
