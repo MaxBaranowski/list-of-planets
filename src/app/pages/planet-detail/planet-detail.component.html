@@ -1,3 +1,30 @@
 <div class="planet-detail-wrapper">
-<pre>{{planet | json}}</pre>
+  <button class="back">
+    <span>&#x2B05;</span>
+    <a routerLink="/">Back To Planet List</a>
+  </button>
+
+<!--  <p *ngIf="!planet; else planetDetail">-->
+<!--    Loading...-->
+<!--  </p>-->
+
+  <div *ngIf="loading; else planetDetail">
+    <app-loading [message]="loadingMessage"></app-loading>
+  </div>
+
+  <ng-template #planetDetail>
+    <div class="planet-detail-content">
+      <div class="description">
+        <h3>Name: {{planet.name}}</h3>
+        <p>Rotation period: {{planet.rotation_period}}</p>
+        <p>Orbital period: {{planet.orbital_period}}</p>
+        <p>Diameter: {{planet.diameter}}</p>
+        <p>Climate: {{planet.climate}}</p>
+        <p>Gravity: {{planet.gravity}}</p>
+        <p>Terrain: {{planet.terrain}}</p>
+        <p>Population: {{planet.population}}</p>
+        <p>Surface water: {{planet.surface_water}}</p>
+      </div>
+    </div>
+  </ng-template>
 </div>

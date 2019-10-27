@@ -20,6 +20,7 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
     current: 1 as number,
     amount: null as number,
   };
+  searchedPlanet = '';
 
   constructor(private planetService: PlanetService) {
     super(planetService);
@@ -33,12 +34,27 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
     this.planetListSubscription.unsubscribe();
   }
 
+  searchPlanet() {
+    this.listOfPlanets.length = 0;
+    this.pagination.current = 1;
+    this.getPlanetsAll();
+  }
+
+
+  clearSearchResults() {
+    this.searchedPlanet = '';
+    this.listOfPlanets.length = 0;
+    this.pagination.current = 1;
+    this.getPlanetsAll();
+  }
+
   private getPlanetsAll() {
+    this.showLoading();
     const startIDX = this.planetsPerPage * (this.pagination.current - 1) + 1;
     const startPage = Math.floor(startIDX / 10) + 1;
     const offset = startIDX - (startPage - 1) * 10 - 1;
 
-    this.planetListSubscription = this.planetService.getPlanetsAll(startPage).subscribe({
+    this.planetListSubscription = this.planetService.getPlanetsAll(startPage, this.searchedPlanet).subscribe({
         next: (planets) => {
           // this.totalPlanets = planets.results; // todo caching request ????
           for (const planet of planets.results.slice(offset)) {
@@ -50,6 +66,7 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
           if (!isNullOrUndefined(planets.next)) {
             this.loadAdditionalPlanets(planets.next);
           }
+          this.hideLoading();
         },
         error: err => this.error = `Smth went wrong, where is a problem with server:${err.message}`
       }
@@ -58,8 +75,9 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
 
 
   private loadAdditionalPlanets(url) {
+    this.showLoading();
     if (this.listOfPlanets.length < this.planetsPerPage) {
-      this.planetListSubscription = this.planetService.getPlanetsByURL(url).subscribe({
+      this.planetListSubscription = this.planetService.getPlanets(url).subscribe({
         next: (planets) => {
           for (const planet of planets.results) {
             if (this.listOfPlanets.length < this.planetsPerPage) {
@@ -67,9 +85,10 @@ export class PlanetListComponent extends PlanetBasicComponent implements OnInit,
             }
           }
           if (!isNullOrUndefined(planets.next)) {
-            console.log(planets.next);
+            // console.log(planets.next);
             this.loadAdditionalPlanets(planets.next);
           }
+          this.hideLoading();
         }
       });
     }

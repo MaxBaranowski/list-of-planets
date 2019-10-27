@@ -11,6 +11,8 @@ import { PlanetListComponent } from './pages/planet-list/planet-list.component';
 import { PlanetDetailComponent } from './pages/planet-detail/planet-detail.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PlanetService } from './services/planet.service';
+import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from './shared/loading.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { PlanetService } from './services/planet.service';
     PlanetListComponent,
     PlanetDetailComponent,
     NotFoundComponent,
+    LoadingComponent,
     PlanetComponent
   ],
   imports: [
@@ -25,6 +28,7 @@ import { PlanetService } from './services/planet.service';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    FormsModule,
     NgbPaginationModule
   ],
   providers: [PlanetService],

@@ -2,25 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({providedIn: 'root'})
 export class PlanetService {
   constructor(private http: HttpClient) {}
 
-  getPlanetsAll(page = 1): Observable<PlanetsResponse> {
-    return this.http.get<PlanetsResponse>(`https://swapi.co/api/planets/?format=json&page=${page}`)
-               .pipe(map(res => res));
+  private planetApiURL = 'https://swapi.co/api/planets/';
+
+  public getPlanets(url = this.planetApiURL): Observable<PlanetsResponse> {
+    return this.http.get<PlanetsResponse>(url);
   }
 
-  getPlanetByID(planetId): Observable<object> {
-    return this.http.get(`https://swapi.co/api/planets/${planetId}`)
-               .pipe(map(res => res));
+  public getPlanetByID(planetId) {
+    return this.getPlanets(`${this.planetApiURL}${planetId}`);
   }
 
-  getPlanetsByURL(url: string): Observable<PlanetsResponse> {
-    return this.http.get<PlanetsResponse>(`${url}`)
-               .pipe(map(res => res));
+  public getPlanetsAll(page = 1, searchPlanet = null) {
+    let url = `${this.planetApiURL}?page=${page}`;
+    if (!isNullOrUndefined(searchPlanet)) {
+      url += `&search=${searchPlanet}`;
+    }
+    return this.getPlanets(url);
   }
+
 }
 
 interface PlanetsResponse {

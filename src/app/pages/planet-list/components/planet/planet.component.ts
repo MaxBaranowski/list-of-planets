@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { getPlanetImage } from 'src/app/shared/helper';
 
 @Component({
   selector: 'app-planet',
@@ -15,8 +16,7 @@ export class PlanetComponent implements OnInit {
   }
 
   public getPlanetImage(url: string): string {
-    const planetId = url.slice(0, -1).split('/').pop();
-    return `https://starwars-visualguide.com/assets/img/planets/${planetId}.jpg`;
+    return getPlanetImage(url);
   }
 
   public imageErrorHandler(event) {

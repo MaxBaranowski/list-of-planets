@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PlanetBasicComponent } from '../../shared/planet.basic.component';
 import { PlanetService } from '../../services/planet.service';
 import { ActivatedRoute } from '@angular/router';
+import { getPlanetImage } from 'src/app/shared/helper';
 
 @Component({
   selector: 'app-planet-detail',
